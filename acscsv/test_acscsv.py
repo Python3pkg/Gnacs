@@ -4,7 +4,7 @@ __author__="Scott Hendrickson"
 __license__="Simplified BSD"
 
 import unittest
-from acscsv import *  
+from .acscsv import *  
 
 class TestAcsCSV(unittest.TestCase):
     """Unit tests ofr common CSV utility functions"""

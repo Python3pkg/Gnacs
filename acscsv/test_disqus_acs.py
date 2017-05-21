@@ -5,8 +5,8 @@ __license__="MIT License"
 
 import sys
 import unittest
-from StringIO import StringIO
-from disqus_acs import *
+from io import StringIO
+from .disqus_acs import *
 
 
 # valid an activity from source (eg from data/) turned into a strong -- so use json.loads(str) to create a dict
@@ -75,7 +75,7 @@ class TestDisqus(unittest.TestCase):
         datafile = "./data/disqus_sample.json"
 
         # loop over all test disqus  processing objects
-        for o in self.objs.values():
+        for o in list(self.objs.values()):
             # loop over records in test file 
             for i, record in o.file_reader(datafile):
                 # if there's a problem parsing, this method will raise an Exception
@@ -88,7 +88,7 @@ class TestDisqus(unittest.TestCase):
 
         # without eg a for loop, we use the generator's next() method 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
    
     #
@@ -121,7 +121,7 @@ class TestDisqus(unittest.TestCase):
         
         # ensure our file_reader has worked correctly 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
         # use sample record above 
         for i, record in o.file_reader( json_string=VALID_ACTIVITY ):
@@ -141,7 +141,7 @@ class TestDisqus(unittest.TestCase):
         
         # ensure our file_reader has worked correctly 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
         # use sample record above 
         for i, record in o.file_reader( json_string=VALID_ACTIVITY ):
@@ -161,7 +161,7 @@ class TestDisqus(unittest.TestCase):
         
         # ensure our file_reader has worked correctly 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
         # use sample record above 
         for i, record in o.file_reader( json_string=VALID_ACTIVITY ):
@@ -181,7 +181,7 @@ class TestDisqus(unittest.TestCase):
         
         # ensure our file_reader has worked correctly 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
         # use sample record above 
         for i, record in o.file_reader( json_string=VALID_ACTIVITY ):
@@ -258,7 +258,7 @@ class TestDisqus(unittest.TestCase):
         
         # ensure our file_reader has worked correctly 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
         # use sample record above 
         for i, record in o.file_reader( json_string=VALID_ACTIVITY ):

@@ -5,7 +5,7 @@ __license__="MIT License"
 
 import sys
 import unittest
-from StringIO import StringIO
+from io import StringIO
 from stocktwits_acs import *
 
 
@@ -64,7 +64,7 @@ class Teststocktwits(unittest.TestCase):
         
         # without eg a for loop, we use the generator's next() method 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
 
     def test_sample_data(self):
@@ -79,7 +79,7 @@ class Teststocktwits(unittest.TestCase):
         datafile = "./data/stocktwits_sample.json"
 
         # loop over all test stocktwits processing objects
-        for o in self.objs.values():
+        for o in list(self.objs.values()):
             # loop over records in test file 
             for i, record in o.file_reader(datafile):
                 # if there's a problem parsing, this method will raise an Exception
@@ -113,7 +113,7 @@ class Teststocktwits(unittest.TestCase):
         
         # ensure our file_reader has worked correctly 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
         # use sample record above 
         for i, record in o.file_reader( json_string=VALID_ACTIVITY ):
@@ -133,7 +133,7 @@ class Teststocktwits(unittest.TestCase):
         
         # ensure our file_reader has worked correctly 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
         # use sample record above 
         for i, record in o.file_reader( json_string=VALID_ACTIVITY ):
@@ -154,7 +154,7 @@ class Teststocktwits(unittest.TestCase):
         
         # ensure our file_reader has worked correctly 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
         # use sample record above 
         for i, record in o.file_reader( json_string=VALID_ACTIVITY ):

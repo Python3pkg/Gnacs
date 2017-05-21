@@ -7,9 +7,9 @@ import sys
 import inspect
 import unittest
 import json
-from StringIO import StringIO
-from twitter_acs import *
-import  acscsv 
+from io import StringIO
+from .twitter_acs import *
+from . import  acscsv 
 
 
 # valid activity from source (eg from data/) 
@@ -254,7 +254,7 @@ class TestTwitter_acs(unittest.TestCase):
             if name.startswith("Field_"):
                 self.objs[name] = obj(valid_activity)
         # we need to preserve order so the tests match the answers
-        self.objs = self.objs.items()
+        self.objs = list(self.objs.items())
         # get some processing objects
         # delim
         #    , options.keypath
@@ -326,14 +326,14 @@ class TestTwitter_acs(unittest.TestCase):
 
     def _test_field_values_(self):
         for n,x in self.objs:
-            print "## path = ",x.path
+            print("## path = ",x.path)
             if len(x.path) == 0 :
                 continue
             res = {x.path[-1]: None}
             for y in sorted(x.path, reverse=True)[1:]:
                 res = {y:res}
             # test for values
-            print "res.append(\"\"\"{}\"\"\")".format(x.value)
+            print("res.append(\"\"\"{}\"\"\")".format(x.value))
             # test for none
             #print "test_doc =",res
             #print "test_obj =",n,"(test_doc)"
@@ -349,7 +349,7 @@ class TestTwitter_acs(unittest.TestCase):
         ## path =  ['gnip', 'profileLocations']
         res.append("""GNIPEMPTYFIELD""")
         ## path =  ['gnip', 'matching_rules']
-        res.append([{u'tag': None, u'value': u'(Chile) has:geo'}, {u'tag': None, u'value': u'(Brazil ) has:geo'}])
+        res.append([{'tag': None, 'value': '(Chile) has:geo'}, {'tag': None, 'value': '(Brazil ) has:geo'}])
         ## path =  ['actor', 'listedCount']
         res.append(0)
         ## path =  ['generator', 'link']
@@ -361,7 +361,7 @@ class TestTwitter_acs(unittest.TestCase):
         ## path =  ['location', 'name']
         res.append("""Virginia""")
         ## path =  ['twitter_entities', 'media']
-        res.append([{u'expanded_url': u'http://twitter.com/mokitwou_sigei/status/482946548071161857/photo/1', u'sizes': {u'small': {u'h': 453, u'w': 340, u'resize': u'fit'}, u'large': {u'h': 1024, u'w': 768, u'resize': u'fit'}, u'medium': {u'h': 800, u'w': 600, u'resize': u'fit'}, u'thumb': {u'h': 150, u'w': 150, u'resize': u'crop'}}, u'url': u'http://t.co/cT3lgNGwOi', u'media_url_https': u'https://pbs.twimg.com/media/BrPFU3ECcAAFpi6.jpg', u'id_str': u'482946547227717632', u'indices': [110, 132], u'media_url': u'http://pbs.twimg.com/media/BrPFU3ECcAAFpi6.jpg', u'type': u'photo', u'id': 482946547227717632, u'display_url': u'pic.twitter.com/cT3lgNGwOi'}])
+        res.append([{'expanded_url': 'http://twitter.com/mokitwou_sigei/status/482946548071161857/photo/1', 'sizes': {'small': {'h': 453, 'w': 340, 'resize': 'fit'}, 'large': {'h': 1024, 'w': 768, 'resize': 'fit'}, 'medium': {'h': 800, 'w': 600, 'resize': 'fit'}, 'thumb': {'h': 150, 'w': 150, 'resize': 'crop'}}, 'url': 'http://t.co/cT3lgNGwOi', 'media_url_https': 'https://pbs.twimg.com/media/BrPFU3ECcAAFpi6.jpg', 'id_str': '482946547227717632', 'indices': [110, 132], 'media_url': 'http://pbs.twimg.com/media/BrPFU3ECcAAFpi6.jpg', 'type': 'photo', 'id': 482946547227717632, 'display_url': 'pic.twitter.com/cT3lgNGwOi'}])
         ## path =  ['actor', 'statusesCount']
         res.append(100)
         ## path =  ['gnip', 'profileLocations']
@@ -389,7 +389,7 @@ class TestTwitter_acs(unittest.TestCase):
         ## path =  ['actor', 'preferredUsername']
         res.append("""mokitwou_sigei""")
         ## path =  ['twitter_entities', 'user_mentions']
-        res.append([{u'indices': [30, 45], u'screen_name': u'GhettoRadio895', u'id': 36316250, u'name': u'Ghetto Radio', u'id_str': u'36316250'}, {u'indices': [82, 94], u'screen_name': u'djruffkenya', u'id': 339020526, u'name': u'DJ RUFF di CAPTAIN', u'id_str': u'339020526'}, {u'indices': [95, 109], u'screen_name': u'estherkagamba', u'id': 100987248, u'name': u'Esther Kagamba ', u'id_str': u'100987248'}])
+        res.append([{'indices': [30, 45], 'screen_name': 'GhettoRadio895', 'id': 36316250, 'name': 'Ghetto Radio', 'id_str': '36316250'}, {'indices': [82, 94], 'screen_name': 'djruffkenya', 'id': 339020526, 'name': 'DJ RUFF di CAPTAIN', 'id_str': '339020526'}, {'indices': [95, 109], 'screen_name': 'estherkagamba', 'id': 100987248, 'name': 'Esther Kagamba ', 'id_str': '100987248'}])
         ## path =  ['provider', 'link']
         res.append("""http://www.twitter.com""")
         ## path =  ['gnip', 'profileLocations']
@@ -419,7 +419,7 @@ class TestTwitter_acs(unittest.TestCase):
         ## path =  ['twitter_entities', 'symbols']
         res.append("""GNIPEMPTYFIELD""")
         ## path =  ['object']
-        res.append({u'link': u'http://twitter.com/mokitwou_sigei/statuses/482946548071161857', u'objectType': u'note', u'postedTime': u'2014-06-28T18:00:04.000Z', u'id': u'object:search.twitter.com,2005:482946548071161857', u'summary': u"Brazil Vs chile #WorldCup and @GhettoRadio895 in the background. Can't miss #GNL  @djruffkenya @estherkagamba http://t.co/cT3lgNGwOi"})
+        res.append({'link': 'http://twitter.com/mokitwou_sigei/statuses/482946548071161857', 'objectType': 'note', 'postedTime': '2014-06-28T18:00:04.000Z', 'id': 'object:search.twitter.com,2005:482946548071161857', 'summary': "Brazil Vs chile #WorldCup and @GhettoRadio895 in the background. Can't miss #GNL  @djruffkenya @estherkagamba http://t.co/cT3lgNGwOi"})
         ## path =  ['actor', 'summary']
         res.append("""GNIPEMPTYFIELD""")
         ## path =  ['actor', 'followersCount']
@@ -427,7 +427,7 @@ class TestTwitter_acs(unittest.TestCase):
         ## path =  ['gnip', 'profileLocations']
         res.append("""GNIPEMPTYFIELD""")
         ## path =  ['twitter_entities', 'hashtags']
-        res.append([{u'indices': [16, 25], u'text': u'WorldCup'}, {u'indices': [76, 80], u'text': u'GNL'}])
+        res.append([{'indices': [16, 25], 'text': 'WorldCup'}, {'indices': [76, 80], 'text': 'GNL'}])
         ## path =  ['postedTime']
         res.append("""2014-06-28T18:00:04.000Z""")
         ## path =  ['twitter_filter_level']
@@ -443,7 +443,7 @@ class TestTwitter_acs(unittest.TestCase):
         ## path =  ['provider', 'objectType']
         res.append("""service""")
         ## path =  ['actor', 'links']
-        res.append([{u'href': None, u'rel': u'me'}])
+        res.append([{'href': None, 'rel': 'me'}])
         ## path =  ['location', 'geo', 'coordinates']
         res.append([[-83.67529, 36.540739], [-83.67529, 39.466012], [-75.16644, 39.466012], [-75.16644, 36.540739]])
         ## path =  ['geo', 'type']
@@ -465,7 +465,7 @@ class TestTwitter_acs(unittest.TestCase):
         ## path =  ['actor', 'location', 'objectType']
         res.append("""GNIPEMPTYFIELD""")
         ## path =  ['gnip', 'klout_profile', 'topics']
-        res.append([{u'displayName': u'Dwyane Wade', u'link': u'http://klout.com/topic/id/9219221220892054727', u'klout_topic_id': u'9219221220892054727'}, {u'displayName': u'Politics', u'link': u'http://klout.com/topic/id/8119426466902417284', u'klout_topic_id': u'8119426466902417284'}])
+        res.append([{'displayName': 'Dwyane Wade', 'link': 'http://klout.com/topic/id/9219221220892054727', 'klout_topic_id': '9219221220892054727'}, {'displayName': 'Politics', 'link': 'http://klout.com/topic/id/8119426466902417284', 'klout_topic_id': '8119426466902417284'}])
         ## path =  ['inReplyTo', 'link']
         res.append("""GNIPEMPTYFIELD""")
         ## path =  ['gnip', 'profileLocations']
@@ -477,7 +477,7 @@ class TestTwitter_acs(unittest.TestCase):
         ## path =  ['gnip', 'profileLocations']
         res.append("""GNIPEMPTYFIELD""")
         ## path =  ['gnip', 'urls']
-        res.append([{u'url': u'http://t.co/cT3lgNGwOi', u'expanded_status': 200, u'expanded_url': u'http://twitter.com/mokitwou_sigei/status/482946548071161857/photo/1'}])
+        res.append([{'url': 'http://t.co/cT3lgNGwOi', 'expanded_status': 200, 'expanded_url': 'http://twitter.com/mokitwou_sigei/status/482946548071161857/photo/1'}])
         ## path =  ['location', 'objectType']
         res.append("""place""")
         ## path =  ['actor', 'location', 'displayName']

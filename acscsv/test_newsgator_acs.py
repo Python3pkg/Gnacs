@@ -5,7 +5,7 @@ __license__="MIT License"
 
 import sys
 import unittest
-from StringIO import StringIO
+from io import StringIO
 from newsgator_acs import *
 
 
@@ -53,7 +53,7 @@ class TestNewsgatorAcs(unittest.TestCase):
         datafile = "./data/newsgator_sample.json"
         
         # loop over all of the test newsgator processing objects
-        for o in self.objs.values():
+        for o in list(self.objs.values()):
             # loop over records in a test file
             for i, record in o.file_reader(datafile):
                 # if there's a problem parsing, this should raise an Exception
@@ -67,11 +67,11 @@ class TestNewsgatorAcs(unittest.TestCase):
 
         # without eg for a loop, use .next()
         g = o.file_reader(json_string = VALID_ACTIVITY)
-        self.assertIsInstance(g.next(), tuple)
+        self.assertIsInstance(next(g), tuple)
 
     def test_lengths(self):
         """ Check the number of fields being output """
-        for key in self.objs.keys():
+        for key in list(self.objs.keys()):
             o = self.objs[key]
             for i, record in o.file_reader(json_string = VALID_ACTIVITY):
                 failure_msg = "failed while testing the length of the {} case output".format(key)

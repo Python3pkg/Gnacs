@@ -5,11 +5,11 @@ __license__="Simplified BSD"
 
 import sys
 import json
-import acscsv
+from . import acscsv
 
 # for custom twitter output, import both the fields module and the code module
-from twitter_acs_fields import *
-import twitter_acs
+from .twitter_acs_fields import *
+from . import twitter_acs
 
 
 #
@@ -69,5 +69,5 @@ if __name__ == "__main__":
 
     for line_number, record in processing_obj.file_reader(): 
         # note: this doesn't handle broken pipe errors  
-        sys.stdout.write( u"{}\n".format( processing_obj.procRecord(record, emptyField="None") ))
+        sys.stdout.write( "{}\n".format( processing_obj.procRecord(record, emptyField="None") ))
 

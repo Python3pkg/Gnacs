@@ -6,7 +6,7 @@ __license__="Simplified BSD"
 import unittest
 import random
 import string
-from snowflake import *  
+from .snowflake import *  
 
 class TestSnowflake(unittest.TestCase):
     """Unit tests ofr common CSV utility functions"""

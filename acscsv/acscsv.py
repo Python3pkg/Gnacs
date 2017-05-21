@@ -50,7 +50,7 @@ class _Field(object):
             self.value = self.default_value
 
     def __repr__(self):
-        return unicode(self.value)
+        return str(self.value)
 
     def walk_path(self, json_record, path=None):
         res = json_record
@@ -159,7 +159,7 @@ class AcsCSV(object):
     def __init__(self, delim, options_keypath):
         self.delim = delim
         if delim == "":
-            print >>sys.stderr, "Warning - Output has Null delimiter"
+            print("Warning - Output has Null delimiter", file=sys.stderr)
         self.rmchars = "\n\r {}".format(self.delim)
         self.options_keypath = options_keypath
         
@@ -230,7 +230,7 @@ class AcsCSV(object):
             try:
                 if isinstance(r, list):
                     res += "'" + self.buildListString(r) + "',"
-                elif isinstance(r, str) or isinstance(r, unicode):
+                elif isinstance(r, str) or isinstance(r, str):
                     res += "'" + r + "'," 
                 else:
                     res += "'" + str(r) + "',"
@@ -313,5 +313,5 @@ class AcsCSV(object):
             except (IndexError, TypeError, KeyError) as e:
                 #sys.stderr.write("Keypath error at %s\n"%k)
                 return "PATH_EMPTY"
-        return unicode(x)
+        return str(x)
 

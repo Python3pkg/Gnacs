@@ -5,8 +5,8 @@ __license__="MIT License"
 
 import sys
 import unittest
-from StringIO import StringIO
-from reflect_json import *
+from io import StringIO
+from .reflect_json import *
 
 
 # valid activity from source (eg from data/) 

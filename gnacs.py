@@ -91,11 +91,11 @@ if __name__ == "__main__":
     
     options = gnacs_args().parse_args()
     if options.ver:
-        print("*"*70)
-        print("Gnacs Version: %s"%__version__)
+        print(("*"*70))
+        print(("Gnacs Version: %s"%__version__))
         print("Please see https://github.com/DrSkippy27/Gnacs for updates or")
         print("sudo pip install gnacs --upgrade to install the latest version.")
-        print("*"*70)
+        print(("*"*70))
         sys.exit()
     #
     delim = "|"     # default delimiter
@@ -138,7 +138,7 @@ if __name__ == "__main__":
     first_geo = True 
     for line_number, record in processing_obj.file_reader(options.file_name): 
         if options.pretty:
-            print(json_printer.dumps(record, indent=3, ensure_ascii=False) )
+            print((json_printer.dumps(record, indent=3, ensure_ascii=False) ))
             continue 
         try:
             if options.explain:
@@ -158,7 +158,7 @@ if __name__ == "__main__":
                     first_geo = False
             else:
                 # ensure formatter is working on a unicode object 
-                sys.stdout.write(u"{}\n".format(processing_obj.procRecord(record, emptyField="None")))
+                sys.stdout.write("{}\n".format(processing_obj.procRecord(record, emptyField="None")))
         # handle I/O exceptions associated with writing to stdout (e.g. when output is piped to 'head')
         # TODO: handle this via contextmanager (within AcsCSV)? 
         except IOError as e:

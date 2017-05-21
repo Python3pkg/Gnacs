@@ -5,7 +5,7 @@ __license__="MIT License"
 
 import sys
 import unittest
-from StringIO import StringIO
+from io import StringIO
 from tumblr_acs import *
 
 
@@ -65,7 +65,7 @@ class TestTumblrACS(unittest.TestCase):
         datafile = "./data/tumblr_sample.json"
 
         # loop over all test tumblr processing objects
-        for o in self.objs.values():
+        for o in list(self.objs.values()):
             # loop over records in test file 
             for i, record in o.file_reader(datafile):
                 # if there's a problem parsing, this method will raise an Exception
@@ -79,7 +79,7 @@ class TestTumblrACS(unittest.TestCase):
         
         # without eg a for loop, we use the generator's next() method 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
    
     #
@@ -113,7 +113,7 @@ class TestTumblrACS(unittest.TestCase):
         
         # ensure our file_reader has worked correctly 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
         # use sample record above 
         for i, record in o.file_reader( json_string=VALID_ACTIVITY ):
@@ -134,7 +134,7 @@ class TestTumblrACS(unittest.TestCase):
         
         # ensure our file_reader has worked correctly 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
         # use sample record above 
         for i, record in o.file_reader( json_string=VALID_ACTIVITY ):
@@ -155,7 +155,7 @@ class TestTumblrACS(unittest.TestCase):
         
         # ensure our file_reader has worked correctly 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
         # use sample record above 
         for i, record in o.file_reader( json_string=VALID_ACTIVITY ):
@@ -176,7 +176,7 @@ class TestTumblrACS(unittest.TestCase):
         
         # ensure our file_reader has worked correctly 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
         # use sample record above 
         for i, record in o.file_reader( json_string=VALID_ACTIVITY ):
@@ -197,7 +197,7 @@ class TestTumblrACS(unittest.TestCase):
         
         # ensure our file_reader has worked correctly 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
         # use sample record above 
         for i, record in o.file_reader( json_string=VALID_ACTIVITY ):
@@ -219,7 +219,7 @@ class TestTumblrACS(unittest.TestCase):
         
         # ensure our file_reader has worked correctly 
         g = o.file_reader( json_string=VALID_ACTIVITY )
-        self.assertIsInstance( g.next(), tuple ) 
+        self.assertIsInstance( next(g), tuple ) 
 
         # use sample record above 
         for i, record in o.file_reader( json_string=VALID_ACTIVITY ):
@@ -304,13 +304,13 @@ class TestTumblrACS(unittest.TestCase):
         # this should have data (an empty string)
         for i, record in o.file_reader( json_string=GOOD_LANG_STRING ):
             record_string = o.procRecord(record)
-            self.assertNotEqual( u"None", record_string.split(self.delim)[4] )
+            self.assertNotEqual( "None", record_string.split(self.delim)[4] )
         
         # this should not have data in the 2nd and 3rd struct fields (should have "None" instead) 
         for i, record in o.file_reader( json_string=BAD_LANG_STRING ):
             record_string = o.procRecord(record)
             #print(record_string)
-            self.assertEqual( u"None", record_string.split(self.delim)[4] )
+            self.assertEqual( "None", record_string.split(self.delim)[4] )
 
 
     def test_rules_field(self):
